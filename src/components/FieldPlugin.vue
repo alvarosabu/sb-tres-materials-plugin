@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  SbIcon,
   SbIconButton,
   SbCard,
   SbCardHeader,
@@ -84,7 +85,8 @@ function addMaterial() {
 </script>
 
 <template>
-  <div class="pt-4">
+  <div class="pt-4 b-t-1 b-t-solid b-gray-200">
+    <p v-if="!state.availableMaterials.length" class="text-gray-700">Add a new material to get started</p>
     <ul class="grid grid-cols-6 mb-4 list-none ml-0 pl-0">
       <li
         class="relative w-14 h-14 rounded flex mb-4"
@@ -94,16 +96,11 @@ function addMaterial() {
         @mouseleave="() => (material.focus = false)"
         @click="removeMaterial(material)"
       >
-        <i
+        <!-- <i
           class="i-ion-sparkles-sharp absolute top-0 right-0 text-yellow text-xl"
           v-show="material.metalness > 0.5"
-        ></i>
-        <span
-          class="absolute top-0 left-0 bg-black bg-opacity-50 w-full flex h-full items-center justify-center"
-          v-if="material.focus"
-        >
-          <i class="i-ion-close text-white"></i>
-        </span>
+        ></i> -->
+        <SbIcon class="absolute -top-3 -right-3 z-10"  v-if="material.focus" name="delete-pictogram" color="white" />
       </li>
       <li class="tada">
         <SbIconButton

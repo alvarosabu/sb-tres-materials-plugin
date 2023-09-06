@@ -3,26 +3,34 @@ import vue from '@vitejs/plugin-vue'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import * as querystring from 'querystring'
 import UnoCSS from 'unocss/vite'
+import { templateCompilerOptions } from '@tresjs/core'
+import { presetUno, presetAttributify, presetIcons, transformerDirectives } from 'unocss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue({
-      script: {
-        propsDestructure: true,
-      },
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag) =>
-            (tag.startsWith('Tres') &&
-              tag !== 'TresCanvas' &&
-              tag !== 'TresLeches') ||
-            tag === 'primitive',
-        },
-      },
+      ...templateCompilerOptions,
     }),
     cssInjectedByJsPlugin(),
-    UnoCSS({}),
+    UnoCSS({
+      theme: {
+        colors: {
+          primary: '#00B3B0',
+          secondary: '#1B243F',
+        },
+      },
+      presets: [presetUno(), presetAttributify(), presetIcons({
+        scale: 1.2,
+        warn: true,
+        extraProperties: {
+          display: 'inline-block',
+          'vertical-align': 'middle',
+          // ...
+        },
+      })],
+      transformers: [transformerDirectives()],
+    }),
     printProd(),
     printDev(),
   ],
